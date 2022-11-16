@@ -4,11 +4,11 @@ import Header from './Header';
 
 const Layout = ({ children }: { children: JSX.Element }) => {
   return (
-    <React.Fragment>
+    <div className='flex flex-col min-h-screen'>
       <Header />
       {children}
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };
 

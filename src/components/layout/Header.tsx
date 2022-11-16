@@ -1,7 +1,17 @@
-import React from 'react';
+import { signOut } from 'firebase/auth';
+import React, { useContext } from 'react';
 import { FaShoppingBag, FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { auth } from '../../firebase';
+import { AuthContext } from '../../store/AuthContext';
 
 const Header = () => {
+  const { currentUser } = useContext(AuthContext);
+
+  const logOut = () => {
+    signOut(auth);
+  };
+
   return (
     <div className='bg-green-300'>
       <nav className='flex justify-between py-5 px-8 items-center md:w-[90%] w-screen mx-auto'>
@@ -19,9 +29,22 @@ const Header = () => {
         </div>
 
         <div className='flex items-center gap-1'>
-          <button className='bg-purple-900 p-3 rounded-lg text-slate-100 font-bold'>
-            Login
-          </button>
+          {!currentUser && (
+            <Link
+              to='/login'
+              className='bg-purple-900 p-3 rounded-lg text-slate-100 font-bold'
+            >
+              Login
+            </Link>
+          )}
+          {!!currentUser && (
+            <button
+              onClick={logOut}
+              className='bg-purple-900 p-3 rounded-lg text-slate-100 font-bold'
+            >
+              Logout
+            </button>
+          )}
           <span className='ml-1 text-medium' id='cart'>
             Cart
           </span>

@@ -1,13 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
 import Layout from './components/layout/Layout';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Home from './pages/Home';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -48,6 +47,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
