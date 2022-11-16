@@ -1,6 +1,6 @@
 import { signOut } from 'firebase/auth';
-import React, { useContext } from 'react';
-import { FaShoppingBag, FaSearch } from 'react-icons/fa';
+import React, { Fragment, useContext } from 'react';
+import { FaShoppingBag, FaSearch, FaCartArrowDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { AuthContext } from '../../store/AuthContext';
@@ -13,50 +13,54 @@ const Header = () => {
   };
 
   return (
-    <div className='bg-green-300'>
-      <nav className='flex justify-between py-5 px-8 items-center md:w-[90%] w-screen mx-auto'>
-        <FaShoppingBag className='w-12 h-12' />
-
-        <div className='flex items-center w-1/2 rounded-lg overflow-hidden border border-gray-400 bg-slate-100'>
-          <input
-            className='placeholder:text-gray-400 outline-none p-3 grow bg-slate-100'
-            type='text'
-            placeholder='Enter Product name...'
-          />
-          <div className='cursor-pointer bg-purple-900 w-12 h-12 flex justify-center items-center'>
-            <FaSearch className='w-8 h-8 text-slate-100' />
-          </div>
+    <nav className='relative px-4 py-4 flex justify-between items-center bg-white'>
+      <FaShoppingBag className='w-12 h-12 text-blue-600' />
+      <div className='flex items-center w-1/2 gap-2'>
+        <input
+          className='placeholder:text-gray-400 outline-none grow bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600'
+          type='text'
+          placeholder='Enter Product name...'
+        />
+        <div className='w-10 h-10 cursor-pointer text-white bg-blue-600 rounded-lg hover:bg-blue-900 flex justify-center items-center'>
+          <FaSearch className='w-6 h-6 text-white' />
         </div>
+      </div>
 
-        <div className='flex items-center gap-1'>
-          {!currentUser && (
+      <div className='flex items-center gap-1'>
+        {!currentUser ? (
+          <Fragment>
             <Link
               to='/login'
-              className='bg-purple-900 p-3 rounded-lg text-slate-100 font-bold'
+              className='lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-lg transition duration-200'
             >
-              Login
+              Log In
             </Link>
-          )}
-          {!!currentUser && (
-            <button
-              onClick={logOut}
-              className='bg-purple-900 p-3 rounded-lg text-slate-100 font-bold'
+            <Link
+              to='/register'
+              className='lg:inline-block py-2 px-6 bg-blue-600 hover:bg-blue-900 text-sm text-white font-bold rounded-lg transition duration-200'
             >
-              Logout
-            </button>
-          )}
-          <span className='ml-1 text-medium' id='cart'>
-            Cart
-          </span>
-          <span
-            className='px-2 bg-purple-900 rounded-md text-slate-100 font-medium text-medium'
-            id='cart-count'
+              Register
+            </Link>
+          </Fragment>
+        ) : (
+          <button
+            className='lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold rounded-lg transition duration-200'
+            onClick={logOut}
           >
-            2
-          </span>
-        </div>
-      </nav>
-    </div>
+            Logout
+          </button>
+        )}
+        <span className='ml-2 text-medium cursor-pointer' id='cart'>
+          <FaCartArrowDown className='w-6 h-6 hover:text-blue-900' />
+        </span>
+        <span
+          className='px-2 bg-blue-600 rounded-lg text-white font-medium text-medium cursor-pointer'
+          id='cart-count'
+        >
+          22
+        </span>
+      </div>
+    </nav>
   );
 };
 

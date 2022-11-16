@@ -4,10 +4,10 @@ import { products } from '../dummyData';
 
 const Products = () => {
   return (
-    <React.Fragment>
+    <div className='flex flex-col'>
       <h1 className='mx-auto text-center'>Latest Products</h1>
       <div className='flex gap-3 flex-wrap items-center justify-center mx-10'>
-        {products.map(product => (
+        {products.map((product) => (
           <Product
             key={product.id}
             id={product.id}
@@ -18,7 +18,7 @@ const Products = () => {
           />
         ))}
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

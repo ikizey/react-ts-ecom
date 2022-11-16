@@ -2,7 +2,7 @@ import React, { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { ToastContainer } from 'react-toastify';
+
 import { showError } from '../../components/UI/showError';
 import { auth } from '../../firebase';
 
@@ -35,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <div className='flex-1 flex items-center justify-center bg-gray-100'>
+    <div className='flex-1 flex items-center justify-center'>
       <div className='px-8 py-6 mx-4 mt-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3'>
         <h3 className='text-2xl font-bold text-center'>Log in</h3>
         <form onSubmit={handleSubmit}>
@@ -74,7 +74,6 @@ const Login = () => {
           </div>
         </form>
       </div>
-      <ToastContainer />
     </div>
   );
 };
