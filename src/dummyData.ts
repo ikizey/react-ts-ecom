@@ -51,7 +51,7 @@ const iPhone14Blue: ProductType = {
 };
 
 const iPhone14White: ProductType = {
-  id: '2832841',
+  id: '2832842',
   brand: 'Apple',
   name: 'iPhone 14 Plus Starligth 256 GB Dual Sim',
   price: 1079,
