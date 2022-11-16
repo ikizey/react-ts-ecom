@@ -1,12 +1,13 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-
-import { showError } from '../../components/UI/showError';
+import { toast } from 'react-toastify';
 import { auth } from '../../firebase';
+import { toastConfig } from '../../toastConfig';
 
 const Login = () => {
+  const [isFetching, setIsFetching] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -22,15 +23,18 @@ const Login = () => {
     const password = formElements.password.value;
 
     try {
+      setIsFetching(true);
       await signInWithEmailAndPassword(auth, email, password);
 
       navigate('/');
     } catch (error) {
       if (error instanceof FirebaseError) {
-        showError(error.message);
+        toast.error(error.message, toastConfig);
       } else {
-        showError('connection problem.');
+        toast.error('connection problem.', toastConfig);
       }
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -61,14 +65,28 @@ const Login = () => {
               />
             </div>
             <div className='flex'>
-              <button className='w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900'>
+              <button
+                className='w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900'
+                disabled={isFetching}
+              >
                 Log in
               </button>
             </div>
-            <div className='mt-6 text-grey-dark'>
-              Already have an account?
-              <Link to='/login' className='text-blue-600 hover:underline ml-2'>
-                Log in
+            <div className='mt-2 text-grey-dark'>
+              <Link
+                to='/password-reset'
+                className='text-blue-600 hover:underline ml-2'
+              >
+                Forgot Password?
+              </Link>
+            </div>
+            <div className='mt-2 text-grey-dark'>
+              Don't have an account?
+              <Link
+                to='/register'
+                className='text-blue-600 hover:underline ml-2'
+              >
+                Register
               </Link>
             </div>
           </div>

@@ -1,11 +1,13 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { showError } from '../../components/UI/showError';
+import { toast } from 'react-toastify';
 import { auth } from '../../firebase';
+import { toastConfig } from '../../toastConfig';
 
 const Register = () => {
+  const [isFetching, setIsFetching] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -23,6 +25,7 @@ const Register = () => {
     const password = formElements.password.value;
 
     try {
+      setIsFetching(true);
       const res = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(res.user, {
         displayName: displayName,
@@ -31,10 +34,12 @@ const Register = () => {
       navigate('/');
     } catch (error) {
       if (error instanceof FirebaseError) {
-        showError(error.message);
+        toast.error(error.message, toastConfig);
       } else {
-        showError('connection problem.');
+        toast.error('connection problem.', toastConfig);
       }
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -76,11 +81,14 @@ const Register = () => {
               />
             </div>
             <div className='flex'>
-              <button className='w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900'>
+              <button
+                className='w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900'
+                disabled={isFetching}
+              >
                 Create Account
               </button>
             </div>
-            <div className='mt-6 text-grey-dark'>
+            <div className='mt-2 text-grey-dark'>
               Already have an account?
               <Link to='/login' className='text-blue-600 hover:underline ml-2'>
                 Log in
