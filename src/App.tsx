@@ -5,6 +5,7 @@ import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Home from './pages/Home';
+import AddItem from './pages/Admin/AddItem';
 
 const App = () => {
   return (
@@ -32,6 +33,14 @@ const App = () => {
             element={
               <Layout>
                 <Login />
+              </Layout>
+            }
+          />
+          <Route
+            path='add-item'
+            element={
+              <Layout>
+                <AddItem />
               </Layout>
             }
           />
