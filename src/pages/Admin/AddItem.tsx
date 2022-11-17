@@ -2,11 +2,11 @@ import React, { FormEvent, useState } from 'react';
 import { addDoc, collection, FirestoreError } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import { FaImage } from 'react-icons/fa';
 import { v4 as uuid } from 'uuid';
 import { toast } from 'react-toastify';
 import { toastConfig } from '../../toastConfig';
 import { db, storage, products } from '../../firebase';
-import { FaImage } from 'react-icons/fa';
 
 const AddItem = () => {
   const [isFetching, setIsFetching] = useState(false);
@@ -17,13 +17,15 @@ const AddItem = () => {
 
     const form = event.currentTarget;
     const formElements = form.elements as typeof form.elements & {
+      brand: HTMLInputElement;
       name: HTMLInputElement;
       price: HTMLInputElement;
       file: HTMLInputElement;
     };
 
     const id = uuid();
-    const product = formElements.name.value;
+    const brand = formElements.brand.value;
+    const name = formElements.name.value;
     const price = formElements.price.value;
     const files = formElements.file.files as FileList;
     const file = files[0];
@@ -44,9 +46,10 @@ const AddItem = () => {
           const productsCollection = collection(db, products);
           await addDoc(productsCollection, {
             id,
-            product,
-            price,
-            imageUrl: downloadURL,
+            brand,
+            name,
+            price: Number(price),
+            imageURL: downloadURL,
           });
           toast.success('Item was added successfully', toastConfig);
           setTimeout(() => navigate('/'), 8000);
@@ -71,6 +74,18 @@ const AddItem = () => {
           <div className='mt-4'>
             <div className='mt-4'>
               <label className='block' htmlFor='name'>
+                Brand
+              </label>
+              <input
+                id='brand'
+                type='text'
+                placeholder='Brand name...'
+                className='w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600'
+              />
+            </div>
+
+            <div className='mt-4'>
+              <label className='block' htmlFor='name'>
                 Product Name
               </label>
               <input
@@ -87,7 +102,7 @@ const AddItem = () => {
               </label>
               <input
                 id='price'
-                type='text'
+                type='number'
                 placeholder='Product price...'
                 className='w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600'
               />

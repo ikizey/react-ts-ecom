@@ -1,10 +1,11 @@
 import React from 'react';
 import { ProductType } from '../types/Product.types';
 
-const Product = ({ images, brand, name, price }: ProductType) => {
+const Product = ({ imageURL, brand, name, price }: ProductType) => {
+  console.log(imageURL);
   return (
     <section className='max-w-sm rounded overflow-hidden shadow-lg'>
-      <img className='w-full' src={images[0].src} alt={images[0].alt} />
+      <img className='w-full' src={imageURL} alt='' />
       <div className='px-6 py-4'>
         <div className='text-xl mb-2'>
           <span className='font-bold'>{brand}</span> {name}
