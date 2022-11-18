@@ -37,6 +37,7 @@ type CartCtx = {
   amount: number;
   addItem: (item: CartItem) => void;
   removeItem: (productId: string) => void;
+  inCart: (productId: string) => number;
 };
 
 export const CartContext = React.createContext<CartCtx>({
@@ -44,6 +45,7 @@ export const CartContext = React.createContext<CartCtx>({
   amount: 0,
   addItem: (item) => {},
   removeItem: (id) => {},
+  inCart: (productId: string) => 0,
 });
 
 const cartReducer = (state: CartType, action: ActionType): CartType => {
@@ -117,9 +119,20 @@ export const CartProvider = (props: PropsWithChildren) => {
     });
   };
 
+  const inCart = (productId: string) => {
+    const currentItemIndex = cartState.items.findIndex(
+      (item) => item.productId === productId
+    );
+    if (currentItemIndex > -1) {
+      return cartState.items[currentItemIndex].amount;
+    }
+    return 0;
+  };
+
   const cartContext: CartCtx = {
     items: cartState.items,
     amount: cartState.amount,
+    inCart: inCart,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
   };
