@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaCartArrowDown } from 'react-icons/fa';
+import { CartContext } from '../store/CartContext';
 import { ProductType } from '../types/Product.types';
 
-const Product = ({ imageURL, brand, name, price }: ProductType) => {
+const Product = ({ id, imageURL, brand, name, price }: ProductType) => {
+  const { addItem } = useContext(CartContext);
   return (
     <section className='max-w-sm rounded overflow-hidden shadow-lg flex flex-col'>
       <img
@@ -17,7 +19,10 @@ const Product = ({ imageURL, brand, name, price }: ProductType) => {
       </div>
       <div className='flex justify-between items-center'>
         <div className='px-6 pt-4 pb-2'>&euro;{price}</div>
-        <FaCartArrowDown className='cursor-pointer w-7 h-7 text-green-600 hover:text-green-900 mr-6 mb-1' />
+        <FaCartArrowDown
+          onClick={() => addItem({ productId: id, amount: 1 })}
+          className='cursor-pointer w-7 h-7 text-green-600 hover:text-green-900 mr-6 mb-1'
+        />
       </div>
     </section>
   );

@@ -4,9 +4,11 @@ import { FaShoppingBag, FaSearch, FaCartArrowDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { AuthContext } from '../../store/AuthContext';
+import { CartContext } from '../../store/CartContext';
 
 const Header = () => {
   const { currentUser } = useContext(AuthContext);
+  const { amount } = useContext(CartContext);
 
   const logOut = () => {
     signOut(auth);
@@ -59,7 +61,7 @@ const Header = () => {
           className='px-2 bg-blue-600 rounded-lg text-white font-medium text-medium cursor-pointer'
           id='cart-count'
         >
-          22
+          {amount}
         </span>
       </div>
     </nav>
