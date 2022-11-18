@@ -32,7 +32,19 @@ const defaultCartState: CartType = {
   amount: 0,
 };
 
-export const CartContext = React.createContext<CartType>(defaultCartState);
+type CartCtx = {
+  items: CartItem[];
+  amount: number;
+  addItem: (item: CartItem) => void;
+  removeItem: (productId: string) => void;
+};
+
+export const CartContext = React.createContext<CartCtx>({
+  items: [],
+  amount: 0,
+  addItem: (item) => {},
+  removeItem: (id) => {},
+});
 
 const cartReducer = (state: CartType, action: ActionType): CartType => {
   let updatedItems: CartItem[];
@@ -105,7 +117,7 @@ export const CartProvider = (props: PropsWithChildren) => {
     });
   };
 
-  const cartContext = {
+  const cartContext: CartCtx = {
     items: cartState.items,
     amount: cartState.amount,
     addItem: addItemToCartHandler,
