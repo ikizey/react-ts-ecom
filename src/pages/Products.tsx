@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Product from './Product';
 import { collection, getDocs } from 'firebase/firestore';
+import Product from './Product';
 import { db, products } from '../firebase';
 import { ProductType } from '../types/Product.types';
 
+const collectionReference = collection(db, products);
+
 const Products = () => {
   const [productList, setProductList] = useState<ProductType[] | null>(null);
-  const collectionReference = collection(db, products);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -24,8 +25,8 @@ const Products = () => {
     <Fragment>
       {!!productList && (
         <div className='flex flex-col'>
-          <h1 className='mx-auto text-center'>Latest Products</h1>
-          <div className='flex gap-3 flex-wrap items-center justify-center mx-10'>
+          <h1 className='mx-auto text-center text-lg my-2'>Latest Products</h1>
+          <div className='grid grid-cols-1 grid-flow-row md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
             {productList.map((product) => (
               <Product
                 key={product.id}
