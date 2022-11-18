@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import { addDoc, collection, FirestoreError } from 'firebase/firestore';
+import { doc, setDoc, FirestoreError } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { FaImage } from 'react-icons/fa';
@@ -43,8 +43,7 @@ const AddItem = () => {
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-          const productsCollection = collection(db, products);
-          await addDoc(productsCollection, {
+          await setDoc(doc(db, products, id), {
             id,
             brand,
             name,
