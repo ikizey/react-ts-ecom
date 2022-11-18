@@ -14,7 +14,9 @@ const Header = () => {
 
   return (
     <nav className='relative px-4 py-4 flex justify-between items-center bg-white'>
-      <FaShoppingBag className='w-12 h-12 text-blue-600' />
+      <Link to='/' className='cursor-pointer'>
+        <FaShoppingBag className='w-12 h-12 text-blue-500' />
+      </Link>
       <div className='flex items-center w-1/2 gap-2'>
         <input
           className='placeholder:text-gray-400 outline-none grow bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600'
