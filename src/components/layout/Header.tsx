@@ -54,15 +54,17 @@ const Header = () => {
             Logout
           </button>
         )}
-        <span className='ml-2 text-medium cursor-pointer' id='cart'>
-          <FaCartArrowDown className='w-6 h-6 hover:text-blue-900' />
-        </span>
-        <span
-          className='px-2 bg-blue-600 rounded-lg text-white font-medium text-medium cursor-pointer'
-          id='cart-count'
-        >
-          {amount}
-        </span>
+        <Link to='/cart' className='flex items-center gap-2'>
+          <span className='ml-2 text-medium cursor-pointer' id='cart'>
+            <FaCartArrowDown className='w-6 h-6 hover:text-blue-900' />
+          </span>
+          <span
+            className='px-2 bg-blue-600 rounded-lg text-white font-medium text-medium cursor-pointer'
+            id='cart-count'
+          >
+            {amount}
+          </span>
+        </Link>
       </div>
     </nav>
   );

@@ -1,4 +1,11 @@
-import React, { PropsWithChildren, useReducer } from 'react';
+import { FirebaseError } from 'firebase/app';
+import { doc, getDoc } from 'firebase/firestore';
+import React, { PropsWithChildren, useCallback, useReducer } from 'react';
+import { toast } from 'react-toastify';
+import { db, products } from '../firebase';
+import { toastConfig } from '../toastConfig';
+import { ProductType } from '../types/Product.types';
+// import { ProductType } from '../types/Product.types';
 
 enum Action {
   ADD = 0,
@@ -17,7 +24,7 @@ type ActionRemove = {
 
 type ActionType = ActionAdd | ActionRemove;
 
-type CartItem = {
+export type CartItem = {
   productId: string;
   amount: number;
 };
@@ -38,6 +45,7 @@ type CartCtx = {
   addItem: (item: CartItem) => void;
   removeItem: (productId: string) => void;
   inCart: (productId: string) => number;
+  getItem: (productId: string) => Promise<ProductType | undefined> | undefined;
 };
 
 export const CartContext = React.createContext<CartCtx>({
@@ -46,6 +54,7 @@ export const CartContext = React.createContext<CartCtx>({
   addItem: (item) => {},
   removeItem: (id) => {},
   inCart: (productId: string) => 0,
+  getItem: (productId: string) => undefined,
 });
 
 const cartReducer = (state: CartType, action: ActionType): CartType => {
@@ -129,12 +138,34 @@ export const CartProvider = (props: PropsWithChildren) => {
     return 0;
   };
 
+  const getItem = useCallback(async (productId: string) => {
+    try {
+      const document = await getDoc(doc(db, products, productId));
+      const data = document.data();
+      const product: ProductType = {
+        id: data?.id,
+        brand: data?.brand,
+        name: data?.name,
+        price: data?.price,
+        imageURL: data?.imageURL,
+      };
+      return product;
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        toast.error(error.message, toastConfig);
+      } else {
+        toast.error('Sorry. Connection Problem.');
+      }
+    }
+  }, []);
+
   const cartContext: CartCtx = {
     items: cartState.items,
     amount: cartState.amount,
     inCart: inCart,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    getItem: getItem,
   };
   return (
     <CartContext.Provider value={cartContext}>

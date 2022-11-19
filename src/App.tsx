@@ -6,6 +6,7 @@ import Register from './pages/Auth/Register';
 import ResetPassword from './pages/Auth/ResetPassword';
 import Home from './pages/Home';
 import AddItem from './pages/Admin/AddItem';
+import Cart from './pages/Cart';
 
 const App = () => {
   return (
@@ -33,6 +34,14 @@ const App = () => {
             element={
               <Layout>
                 <Login />
+              </Layout>
+            }
+          />
+          <Route
+            path='cart'
+            element={
+              <Layout>
+                <Cart />
               </Layout>
             }
           />

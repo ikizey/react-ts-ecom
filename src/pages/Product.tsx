@@ -1,6 +1,5 @@
 import React from 'react';
 import CartManipulator from '../components/UI/CartManipulator';
-
 import { ProductType } from '../types/Product.types';
 
 const Product = ({ id, imageURL, brand, name, price }: ProductType) => {
