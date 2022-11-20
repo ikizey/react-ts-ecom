@@ -1,24 +1,14 @@
-import React, { Fragment, useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import React, { Fragment, useContext, useEffect } from 'react';
 import Product from './Product';
-import { db, products } from '../firebase';
-import { ProductType } from '../types/Product.types';
-
-const collectionReference = collection(db, products);
+import { ProductSearchContext } from '../store/ProductSearchContext';
 
 const Products = () => {
-  const [productList, setProductList] = useState<ProductType[] | null>(null);
+  const { productList, search } = useContext(ProductSearchContext);
 
   useEffect(() => {
-    const getProducts = async () => {
-      const data = await getDocs(collectionReference);
-      const prods = data.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      })) as ProductType[];
-      setProductList(prods);
-    };
-    getProducts();
+    if (!productList) {
+      search('');
+    }
   }, []);
 
   return (

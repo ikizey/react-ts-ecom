@@ -1,14 +1,28 @@
 import { signOut } from 'firebase/auth';
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, FormEvent } from 'react';
 import { FaShoppingBag, FaSearch, FaCartArrowDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import { AuthContext } from '../../store/AuthContext';
 import { CartContext } from '../../store/CartContext';
+import { ProductSearchContext } from '../../store/ProductSearchContext';
 
 const Header = () => {
   const { currentUser } = useContext(AuthContext);
   const { amount } = useContext(CartContext);
+  const { search } = useContext(ProductSearchContext);
+
+  const searchHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formElements = form.elements as typeof form.elements & {
+      searchName: HTMLInputElement;
+    };
+
+    const searchName = formElements.searchName.value;
+
+    search(searchName);
+  };
 
   const logOut = () => {
     signOut(auth);
@@ -19,16 +33,20 @@ const Header = () => {
       <Link to='/' className='cursor-pointer'>
         <FaShoppingBag className='w-12 h-12 text-blue-500' />
       </Link>
-      <div className='flex items-center w-1/2 gap-2'>
+      <form className='flex items-center w-1/2 gap-2' onSubmit={searchHandler}>
         <input
           className='placeholder:text-gray-400 outline-none grow bg-white px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-600'
           type='text'
+          id='searchName'
           placeholder='Enter Product name...'
         />
-        <div className='w-10 h-10 cursor-pointer text-white bg-blue-600 rounded-lg hover:bg-blue-900 flex justify-center items-center'>
+        <button
+          type='submit'
+          className='w-10 h-10 cursor-pointer text-white bg-blue-600 rounded-lg hover:bg-blue-900 flex justify-center items-center'
+        >
           <FaSearch className='w-6 h-6 text-white' />
-        </div>
-      </div>
+        </button>
+      </form>
 
       <div className='flex items-center gap-1'>
         {!currentUser ? (
