@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import CartItem from './CartItem';
 import { db, products } from '../firebase';
 import { CartContext } from '../store/CartContext';
+import Price from '../components/UI/Price';
 
 const tableTitles = ['Image', 'Product', 'Qty', 'Price'];
 
@@ -61,7 +62,7 @@ const Cart = () => {
 
         <div className='flex items-center justify-between px-4 py-2 mt-3 border-t-2'>
           <span className='text-xl font-bold'>Total</span>
-          <span className='text-2xl font-bold'>${total}</span>
+          <Price className={'text-2xl font-bold'} value={total} />
         </div>
 
         <button className='w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900'>

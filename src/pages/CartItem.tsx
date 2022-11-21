@@ -1,5 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import CartManipulator from '../components/UI/CartManipulator';
+import Price from '../components/UI/Price';
 import { CartContext } from '../store/CartContext';
 import { ProductType } from '../types/Product.types';
 
@@ -37,7 +38,7 @@ const CartItem = ({ id }: CartItemProps) => {
             <CartManipulator id={product!.id} />
           </div>
           <div className='flex justify-center items-center'>
-            {product?.price}
+            <Price className='text-lg font-bold' value={product?.price} />
           </div>
         </Fragment>
       )}

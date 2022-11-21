@@ -1,5 +1,6 @@
 import React from 'react';
 import CartManipulator from '../components/UI/CartManipulator';
+import Price from '../components/UI/Price';
 import { ProductType } from '../types/Product.types';
 
 const Product = ({ id, imageURL, brand, name, price }: ProductType) => {
@@ -16,9 +17,7 @@ const Product = ({ id, imageURL, brand, name, price }: ProductType) => {
         </div>
       </div>
       <div className='flex justify-between items-center mb-2 px-6'>
-        <span className='text-xl font-semibold text-gray-600'>
-          &euro;{price}
-        </span>
+        <Price className='text-xl font-semibold text-gray-600' value={price} />
         <CartManipulator id={id} />
       </div>
     </section>
